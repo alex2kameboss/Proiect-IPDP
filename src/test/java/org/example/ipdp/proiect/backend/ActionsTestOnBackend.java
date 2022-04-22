@@ -47,4 +47,23 @@ public class ActionsTestOnBackend {
 
         assertEquals(1, attrs.size());
     }
+
+    @Test
+    public void removeEntityByAction()
+    {
+        Backend backend = new Backend();
+        BackendHelper backendHelper = new BackendHelper(backend);
+
+        String entityName = "entity1";
+
+        // add new entity
+        IAction action = new AddEntityAction(new Entity(entityName));
+        action.applyStorage(backend);
+
+        // remove entity
+        action = new RemoveEntityAction(new Entity(entityName));
+        action.applyStorage(backend);
+
+        assertNull(backendHelper.getEntityByName(entityName));
+    }
 }

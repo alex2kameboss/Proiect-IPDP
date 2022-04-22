@@ -48,4 +48,15 @@ public class BackendTest {
 
         assertEquals(1, attrs.size());
     }
+
+    @Test
+    public void testRemoveEntity() {
+        Backend backend = new Backend();
+        BackendHelper backendHelper = new BackendHelper(backend);
+
+        backend.addEntity(new org.example.ipdp.proiect.misc.Entity("entity1"));
+        backend.removeEntity(new org.example.ipdp.proiect.misc.Entity("entity1"));
+
+        assertNull(backendHelper.getEntityByName("entity1"));
+    }
 }

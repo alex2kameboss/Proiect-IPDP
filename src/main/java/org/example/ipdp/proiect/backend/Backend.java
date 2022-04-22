@@ -18,6 +18,12 @@ public class Backend implements org.example.ipdp.proiect.misc.IStorage {
          context = cayenneRuntime.newContext();
     }
 
+    public Entity getEntityByName(String entityName) {
+        return ObjectSelect.query(Entity.class)
+                .where(Entity.NAME.eq(entityName))
+                .selectFirst(context);
+    }
+
     @Override
     public void addEntity(org.example.ipdp.proiect.misc.Entity entity) {
         Entity newEntity = context.newObject(Entity.class);
@@ -27,6 +33,15 @@ public class Backend implements org.example.ipdp.proiect.misc.IStorage {
 
     @Override
     public org.example.ipdp.proiect.misc.Entity removeEntity(org.example.ipdp.proiect.misc.Entity entity) {
+        Entity deleteEntity = this.getEntityByName(entity.getEntityName());
+
+        if (deleteEntity != null) {
+            context.deleteObject(deleteEntity);
+            context.commitChanges();
+
+            return entity;
+        }
+
         return null;
     }
 
