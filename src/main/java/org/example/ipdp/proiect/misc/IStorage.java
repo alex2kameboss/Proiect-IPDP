@@ -12,7 +12,7 @@ public interface IStorage {
 
     public Entity updateEntity(Entity oldEntity, Entity newEntity);
 
-    public void addAttribute(Entity parent, Attribute attribute);
+    public void addAttribute(String parent, Attribute attribute);
 
     public Attribute removeAttribute(String parentName, Attribute attribute);
 
