@@ -97,6 +97,10 @@ public class Backend implements org.example.ipdp.proiect.misc.IStorage {
 
     @Override
     public boolean applyActions(List<org.example.ipdp.proiect.misc.IAction> actions) {
-        return false;
+        for (org.example.ipdp.proiect.misc.IAction action : actions) {
+            action.applyStorage(this);
+        }
+
+        return true;
     }
 }
