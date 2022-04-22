@@ -1,4 +1,7 @@
 package org.example.ipdp.proiect.misc;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
 import java.util.HashMap;
 
 public class Entity {
@@ -8,6 +11,16 @@ public class Entity {
     public Entity(String entityName) {
         this.entityName = entityName;
         this.attributes = new HashMap<>();
+    }
+
+    public Entity(@NotNull final Entity entity) {
+        this.entityName = entity.getEntityName();
+        this.attributes = new HashMap<>();
+
+        Collection<Attribute> attrs = entity.attributes.values();
+        for (Attribute attr : attrs) {
+            this.addAttribute(new Attribute(attr));
+        }
     }
 
     public String getEntityName() {
