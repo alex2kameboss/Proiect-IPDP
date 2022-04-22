@@ -1,9 +1,6 @@
 package org.example.ipdp.proiect.misc;
 
-import org.example.ipdp.proiect.misc.Attribute;
-import org.example.ipdp.proiect.misc.DataModel;
-import org.example.ipdp.proiect.misc.Entity;
-import org.example.ipdp.proiect.misc.Relation;
+import java.util.List;
 
 public interface IStorage {
     public void addEntity(Entity entity);
@@ -25,4 +22,6 @@ public interface IStorage {
     public Relation updateRelation(Relation oldRelation, Relation newRelation);
 
     public DataModel getDataModel();
+
+    public boolean applyActions(List<IAction> actions);
 }
