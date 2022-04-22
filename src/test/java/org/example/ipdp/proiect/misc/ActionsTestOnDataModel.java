@@ -1,12 +1,10 @@
 package org.example.ipdp.proiect.misc;
 
-import org.example.ipdp.proiect.actions.AddAttributeAction;
-import org.example.ipdp.proiect.actions.AddEntityAction;
-import org.example.ipdp.proiect.actions.RemoveAttributeAction;
-import org.example.ipdp.proiect.actions.RemoveEntityAction;
+import org.example.ipdp.proiect.actions.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ActionsTestOnDataModel {
     @Test
@@ -74,5 +72,39 @@ public class ActionsTestOnDataModel {
         action.applyDataModel(model);
 
         assertEquals(model.entities.get(parentName).getAttribute(attrName), null);
+    }
+
+    @Test
+    public void updateEntityNameByAction()
+    {
+        String entityName = "entity1";
+        String entityNameNew = "newEntity1";
+        DataModel model = new DataModel();
+        model.addEntity(new Entity(entityName));
+
+        // add new entity
+        IAction action = new UpdateEntityNameAction(entityName, entityNameNew);
+        action.applyDataModel(model);
+
+        assertTrue(model.entities.get(entityName) == null &&
+                model.entities.get(entityNameNew).getEntityName().equals(entityNameNew));
+    }
+
+    @Test
+    public void updateAttributeByAction()
+    {
+        String parentName = "entity1";
+        Entity parent = new Entity(parentName);
+        String attrName = "attr1";
+        Attribute attribute = new Attribute(attrName, "type1");
+        Attribute attribute1 = new Attribute(attrName, "type2");
+        parent.addAttribute(attribute);
+        DataModel model = new DataModel();
+        model.addEntity(parent);
+
+        IAction action = new UpdateAttributeAction(parentName, attribute, attribute1);
+        action.applyDataModel(model);
+
+        assertEquals(model.entities.get(parentName).getAttribute(attrName), attribute1);
     }
 }
