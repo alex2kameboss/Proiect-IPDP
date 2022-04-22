@@ -14,9 +14,9 @@ public interface IStorage {
 
     public void addAttribute(Entity parent, Attribute attribute);
 
-    public Attribute removeAttribute(Entity parent, Attribute attribute);
+    public Attribute removeAttribute(String parentName, Attribute attribute);
 
-    public Attribute updateAttribute(Entity parent, Attribute oldAttribute, Attribute newAttribute);
+    public Attribute updateAttribute(String parentName, Attribute oldAttribute, Attribute newAttribute);
 
     public void addRelation(Relation relation);
 
