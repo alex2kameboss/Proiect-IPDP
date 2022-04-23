@@ -8,6 +8,7 @@ public class Test {
         frame.setTitle("Test state machine");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        (new HomeScreen()).init(frame);
+        //(new HomeScreen()).init(frame);
+        (new WorkScreen()).init(frame);
     }
 }
