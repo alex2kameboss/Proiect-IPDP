@@ -42,10 +42,10 @@ public class BackendTest {
         Backend backend = new Backend();
         BackendHelper backendHelper = new BackendHelper(backend);
 
-        String name = "entity1";
+        String name = "entity12";
 
         backend.addEntity(new org.example.ipdp.proiect.misc.Entity(name));
-        backend.addAttribute(name, new org.example.ipdp.proiect.misc.Attribute("name1", "type1"));
+        backend.addAttribute(name, new org.example.ipdp.proiect.misc.Attribute("name12", "type1"));
 
         List<Attribute> attrs = backendHelper.getEntityAttributes(name);
 
@@ -57,10 +57,12 @@ public class BackendTest {
         Backend backend = new Backend();
         BackendHelper backendHelper = new BackendHelper(backend);
 
-        backend.addEntity(new org.example.ipdp.proiect.misc.Entity("entity1"));
-        backend.removeEntity(new org.example.ipdp.proiect.misc.Entity("entity1"));
+        String entityName = "entityForRemove";
 
-        assertNull(backendHelper.getEntityByName("entity1"));
+        backend.addEntity(new org.example.ipdp.proiect.misc.Entity(entityName));
+        backend.removeEntity(new org.example.ipdp.proiect.misc.Entity(entityName));
+
+        assertNull(backendHelper.getEntityByName(entityName));
     }
 
     @Test
@@ -68,11 +70,11 @@ public class BackendTest {
         Backend backend = new Backend();
         BackendHelper backendHelper = new BackendHelper(backend);
 
-        String name = "entity1";
+        String name = "entity11";
 
         backend.addEntity(new org.example.ipdp.proiect.misc.Entity(name));
-        backend.addAttribute(name, new org.example.ipdp.proiect.misc.Attribute("name1", "type1"));
-        backend.removeAttribute(name, new org.example.ipdp.proiect.misc.Attribute("name1", "type1"));
+        backend.addAttribute(name, new org.example.ipdp.proiect.misc.Attribute("name111", "type1"));
+        backend.removeAttribute(name, new org.example.ipdp.proiect.misc.Attribute("name111", "type1"));
 
         List<Attribute> attrs = backendHelper.getEntityAttributes(name);
 

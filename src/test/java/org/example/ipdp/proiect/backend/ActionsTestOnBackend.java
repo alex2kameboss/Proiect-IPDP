@@ -54,7 +54,7 @@ public class ActionsTestOnBackend {
         Backend backend = new Backend();
         BackendHelper backendHelper = new BackendHelper(backend);
 
-        String entityName = "entity1";
+        String entityName = "entity2";
 
         // add new entity
         IAction action = new AddEntityAction(new Entity(entityName));
