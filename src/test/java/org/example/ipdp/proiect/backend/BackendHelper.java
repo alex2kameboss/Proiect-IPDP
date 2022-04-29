@@ -3,6 +3,7 @@ package org.example.ipdp.proiect.backend;
 import org.apache.cayenne.query.ObjectSelect;
 import org.example.ipdp.proiect.backend.orm.Attribute;
 import org.example.ipdp.proiect.backend.orm.Entity;
+import org.example.ipdp.proiect.backend.orm.Relationship;
 
 import java.util.List;
 
@@ -21,5 +22,9 @@ public class BackendHelper {
 
     public List<Attribute> getEntityAttributes(String entityName) {
         return this.getEntityByName(entityName).getAttributes();
+    }
+
+    public List<Relationship> getRelations() {
+        return ObjectSelect.query(Relationship.class).select(backend.context);
     }
 }

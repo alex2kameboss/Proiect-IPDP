@@ -67,6 +67,23 @@ public class Backend implements org.example.ipdp.proiect.misc.IStorage {
 
     @Override
     public org.example.ipdp.proiect.misc.Attribute removeAttribute(String parentName, org.example.ipdp.proiect.misc.Attribute attribute) {
+        Entity entity = getEntityByName(parentName);
+
+        Attribute attributeDb = null;
+        for(Attribute attr : entity.getAttributes()) {
+            if (attr.getName().equals(attribute.getAttributeName()) &&
+                attr.getType().equals(attribute.getAttributeType())) {
+                attributeDb = attr;
+                break;
+            }
+        }
+
+        if (attributeDb != null) {
+            context.deleteObject(attributeDb);
+            context.commitChanges();
+            return attribute;
+        }
+
         return null;
     }
 
@@ -77,11 +94,31 @@ public class Backend implements org.example.ipdp.proiect.misc.IStorage {
 
     @Override
     public void addRelation(org.example.ipdp.proiect.misc.Relation relation) {
+        Entity firstEntity = getEntityByName(relation.getFirstEntity().getEntityName());
+        Entity secondEntity = getEntityByName(relation.getSecondEntity().getEntityName());
 
+        Relationship relationship = context.newObject(Relationship.class);
+        relationship.setFirstMember(firstEntity);
+        relationship.setSecondMemebr(secondEntity);
+        relationship.setType(relation.getRelationTypes().name());
+        context.commitChanges();
     }
 
     @Override
     public org.example.ipdp.proiect.misc.Relation removeRelation(org.example.ipdp.proiect.misc.Relation relation) {
+        Entity firstEntity = getEntityByName(relation.getFirstEntity().getEntityName());
+        Entity secondEntity = getEntityByName(relation.getSecondEntity().getEntityName());
+
+        Relationship relationship = ObjectSelect.query(Relationship.class)
+                .where(Relationship.FIRST_MEMBER.eq(firstEntity).andExp(Relationship.SECOND_MEMEBR.eq(secondEntity)))
+                .selectFirst(context);
+
+        if (relationship != null) {
+            context.deleteObject(relationship);
+            context.commitChanges();
+            return  relation;
+        }
+
         return null;
     }
 
