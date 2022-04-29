@@ -3,6 +3,8 @@ package org.example.ipdp.proiect.misc;
 import org.example.ipdp.proiect.actions.*;
 import org.junit.Test;
 
+import javax.xml.crypto.Data;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -106,5 +108,42 @@ public class ActionsTestOnDataModel {
         action.applyDataModel(model);
 
         assertEquals(model.entities.get(parentName).getAttribute(attrName), attribute1);
+    }
+
+    @Test
+    public void addRelationByAction()
+    {
+        Entity entity1 = new Entity("entity1");
+        Entity entity2 = new Entity("entity2");
+        Relation relation = new Relation(entity1, entity2, RelationTypes.one_to_many);
+
+        IAction action = new AddRelationAction(relation);
+
+        DataModel dataModel = new DataModel();
+        dataModel.addEntity(entity1);
+        dataModel.addEntity(entity2);
+
+        action.applyDataModel(dataModel);
+
+        assertEquals(1, dataModel.relations.size());
+    }
+
+    @Test
+    public void removeRelationByAction()
+    {
+        Entity entity1 = new Entity("entity1");
+        Entity entity2 = new Entity("entity2");
+        Relation relation = new Relation(entity1, entity2, RelationTypes.one_to_many);
+
+        IAction action = new RemoveRelationAction(relation);
+
+        DataModel dataModel = new DataModel();
+        dataModel.addEntity(entity1);
+        dataModel.addEntity(entity2);
+        dataModel.addRelation(relation);
+
+        action.applyDataModel(dataModel);
+
+        assertEquals(0, dataModel.relations.size());
     }
 }
