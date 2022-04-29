@@ -5,17 +5,14 @@ import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.query.ObjectSelect;
 import org.example.ipdp.proiect.backend.orm.*;
 
+import javax.naming.Context;
 import java.util.List;
 
 public class Backend implements org.example.ipdp.proiect.misc.IStorage {
-    protected ServerRuntime cayenneRuntime;
     protected ObjectContext context;
 
-    public Backend() {
-         cayenneRuntime = ServerRuntime.builder()
-                .addConfig("cayenne-test.xml")
-                .build();
-         context = cayenneRuntime.newContext();
+    public Backend(ObjectContext context) {
+        this.context = context;
     }
 
     public Entity getEntityByName(String entityName) {

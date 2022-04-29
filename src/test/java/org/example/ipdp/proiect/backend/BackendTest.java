@@ -27,7 +27,7 @@ public class BackendTest {
 
     @Test
     public void testAddEntity() {
-        Backend backend = new Backend();
+        Backend backend = new Backend(ContextSingleton.getContext());
         BackendHelper backendHelper = new BackendHelper(backend);
 
         backend.addEntity(new org.example.ipdp.proiect.misc.Entity("entity1"));
@@ -39,7 +39,7 @@ public class BackendTest {
 
     @Test
     public void testAddAttribute() {
-        Backend backend = new Backend();
+        Backend backend = new Backend(ContextSingleton.getContext());
         BackendHelper backendHelper = new BackendHelper(backend);
 
         String name = "entity12";
@@ -54,7 +54,7 @@ public class BackendTest {
 
     @Test
     public void testRemoveEntity() {
-        Backend backend = new Backend();
+        Backend backend = new Backend(ContextSingleton.getContext());
         BackendHelper backendHelper = new BackendHelper(backend);
 
         String entityName = "entityForRemove";
@@ -67,7 +67,7 @@ public class BackendTest {
 
     @Test
     public void testRemoveAttribute() {
-        Backend backend = new Backend();
+        Backend backend = new Backend(ContextSingleton.getContext());
         BackendHelper backendHelper = new BackendHelper(backend);
 
         String name = "entity11";
@@ -83,27 +83,27 @@ public class BackendTest {
 
     @Test
     public void testAddRelationship() {
-        Backend backend = new Backend();
+        Backend backend = new Backend(ContextSingleton.getContext());
         BackendHelper backendHelper = new BackendHelper(backend);
 
-        org.example.ipdp.proiect.misc.Entity entity1 = new org.example.ipdp.proiect.misc.Entity("Entity1");
-        org.example.ipdp.proiect.misc.Entity entity2 = new org.example.ipdp.proiect.misc.Entity("Entity2");
+        org.example.ipdp.proiect.misc.Entity entity1 = new org.example.ipdp.proiect.misc.Entity("testAddRelationship1");
+        org.example.ipdp.proiect.misc.Entity entity2 = new org.example.ipdp.proiect.misc.Entity("testAddRelationship2");
         Relation relation = new Relation(entity1, entity2, RelationTypes.one_to_many);
 
         backend.addEntity(entity1);
         backend.addEntity(entity2);
         backend.addRelation(relation);
 
-        assertEquals(1, backendHelper.getRelations().size());
+        assertNotNull(backendHelper.getRelation(relation));
     }
 
     @Test
     public void testRemoveRelationship() {
-        Backend backend = new Backend();
+        Backend backend = new Backend(ContextSingleton.getContext());
         BackendHelper backendHelper = new BackendHelper(backend);
 
-        org.example.ipdp.proiect.misc.Entity entity1 = new org.example.ipdp.proiect.misc.Entity("Entity1");
-        org.example.ipdp.proiect.misc.Entity entity2 = new org.example.ipdp.proiect.misc.Entity("Entity2");
+        org.example.ipdp.proiect.misc.Entity entity1 = new org.example.ipdp.proiect.misc.Entity("testRemoveRelationship1");
+        org.example.ipdp.proiect.misc.Entity entity2 = new org.example.ipdp.proiect.misc.Entity("testRemoveRelationship2");
         Relation relation = new Relation(entity1, entity2, RelationTypes.one_to_many);
 
         backend.addEntity(entity1);
@@ -111,6 +111,6 @@ public class BackendTest {
         backend.addRelation(relation);
         backend.removeRelation(relation);
 
-        assertEquals(0, backendHelper.getRelations().size());
+        assertNull(backendHelper.getRelation(relation));
     }
 }

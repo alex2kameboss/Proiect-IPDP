@@ -12,7 +12,7 @@ public class ActionsTestOnBackend {
     @Test
     public void addNewEntityByAction()
     {
-        Backend backend = new Backend();
+        Backend backend = new Backend(ContextSingleton.getContext());
         BackendHelper backendHelper = new BackendHelper(backend);
 
         String entityName = "entity1";
@@ -26,7 +26,7 @@ public class ActionsTestOnBackend {
     @Test
     public void addNewAttributeByAction()
     {
-        Backend backend = new Backend();
+        Backend backend = new Backend(ContextSingleton.getContext());
         BackendHelper backendHelper = new BackendHelper(backend);
 
         String parentName = "entity1";
@@ -48,7 +48,7 @@ public class ActionsTestOnBackend {
     @Test
     public void removeEntityByAction()
     {
-        Backend backend = new Backend();
+        Backend backend = new Backend(ContextSingleton.getContext());
         BackendHelper backendHelper = new BackendHelper(backend);
 
         String entityName = "entity2";
@@ -67,7 +67,7 @@ public class ActionsTestOnBackend {
     @Test
     public void removeAttributeByAction()
     {
-        Backend backend = new Backend();
+        Backend backend = new Backend(ContextSingleton.getContext());
         BackendHelper backendHelper = new BackendHelper(backend);
 
         String name = "entity1";
@@ -91,7 +91,7 @@ public class ActionsTestOnBackend {
         Entity entity2 = new Entity("addRelationByAction2");
         Relation relation = new Relation(entity1, entity2, RelationTypes.one_to_many);
 
-        Backend backend = new Backend();
+        Backend backend = new Backend(ContextSingleton.getContext());
         BackendHelper backendHelper = new BackendHelper(backend);
 
         backend.addEntity(entity1);
@@ -111,7 +111,7 @@ public class ActionsTestOnBackend {
         Entity entity2 = new Entity("removeRelationByAction2");
         Relation relation = new Relation(entity1, entity2, RelationTypes.one_to_many);
 
-        Backend backend = new Backend();
+        Backend backend = new Backend(ContextSingleton.getContext());
         BackendHelper backendHelper = new BackendHelper(backend);
 
         backend.addEntity(entity1);

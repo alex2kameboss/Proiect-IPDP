@@ -4,6 +4,7 @@ import org.apache.cayenne.query.ObjectSelect;
 import org.example.ipdp.proiect.backend.orm.Attribute;
 import org.example.ipdp.proiect.backend.orm.Entity;
 import org.example.ipdp.proiect.backend.orm.Relationship;
+import org.example.ipdp.proiect.misc.Relation;
 
 import java.util.List;
 
@@ -26,5 +27,14 @@ public class BackendHelper {
 
     public List<Relationship> getRelations() {
         return ObjectSelect.query(Relationship.class).select(backend.context);
+    }
+
+    public Relationship getRelation(Relation relation) {
+        Entity firstEntity = getEntityByName(relation.getFirstEntity().getEntityName());
+        Entity secondEntity = getEntityByName(relation.getSecondEntity().getEntityName());
+
+        return ObjectSelect.query(Relationship.class)
+                .where(Relationship.FIRST_MEMBER.eq(firstEntity).andExp(Relationship.SECOND_MEMEBR.eq(secondEntity)))
+                .selectFirst(backend.context);
     }
 }
