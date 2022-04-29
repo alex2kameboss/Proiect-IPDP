@@ -1,10 +1,7 @@
 package org.example.ipdp.proiect.backend;
 
 import org.example.ipdp.proiect.actions.*;
-import org.example.ipdp.proiect.misc.Attribute;
-import org.example.ipdp.proiect.misc.DataModel;
-import org.example.ipdp.proiect.misc.Entity;
-import org.example.ipdp.proiect.misc.IAction;
+import org.example.ipdp.proiect.misc.*;
 import org.junit.Test;
 
 import java.util.List;
@@ -85,5 +82,47 @@ public class ActionsTestOnBackend {
         List<org.example.ipdp.proiect.backend.orm.Attribute> attrs = backendHelper.getEntityAttributes(name);
 
         assertEquals(0, attrs.size());
+    }
+
+    @Test
+    public void addRelationByAction()
+    {
+        Entity entity1 = new Entity("addRelationByAction1");
+        Entity entity2 = new Entity("addRelationByAction2");
+        Relation relation = new Relation(entity1, entity2, RelationTypes.one_to_many);
+
+        Backend backend = new Backend();
+        BackendHelper backendHelper = new BackendHelper(backend);
+
+        backend.addEntity(entity1);
+        backend.addEntity(entity2);
+
+        IAction action = new AddRelationAction(relation);
+
+        action.applyStorage(backend);
+
+        assertEquals(1, backendHelper.getRelations().size());
+    }
+
+    @Test
+    public void removeRelationByAction()
+    {
+        Entity entity1 = new Entity("removeRelationByAction1");
+        Entity entity2 = new Entity("removeRelationByAction2");
+        Relation relation = new Relation(entity1, entity2, RelationTypes.one_to_many);
+
+        Backend backend = new Backend();
+        BackendHelper backendHelper = new BackendHelper(backend);
+
+        backend.addEntity(entity1);
+        backend.addEntity(entity2);
+        backend.addRelation(relation);
+
+
+        IAction action = new RemoveRelationAction(relation);
+
+        action.applyStorage(backend);
+
+        assertEquals(0, backendHelper.getRelations().size());
     }
 }
