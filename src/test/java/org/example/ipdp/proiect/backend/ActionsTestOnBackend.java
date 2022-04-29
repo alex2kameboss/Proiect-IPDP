@@ -66,4 +66,24 @@ public class ActionsTestOnBackend {
 
         assertNull(backendHelper.getEntityByName(entityName));
     }
+
+    @Test
+    public void removeAttributeByAction()
+    {
+        Backend backend = new Backend();
+        BackendHelper backendHelper = new BackendHelper(backend);
+
+        String name = "entity1";
+
+        backend.addEntity(new org.example.ipdp.proiect.misc.Entity(name));
+        backend.addAttribute(name, new org.example.ipdp.proiect.misc.Attribute("name1", "type1"));
+        //backend.removeAttribute(name, new org.example.ipdp.proiect.misc.Attribute("name1", "type1"));
+
+        IAction action = action = new RemoveAttributeAction(name, new org.example.ipdp.proiect.misc.Attribute("name1", "type1"));
+        action.applyStorage(backend);
+
+        List<org.example.ipdp.proiect.backend.orm.Attribute> attrs = backendHelper.getEntityAttributes(name);
+
+        assertEquals(0, attrs.size());
+    }
 }
