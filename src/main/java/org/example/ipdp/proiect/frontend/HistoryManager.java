@@ -40,6 +40,6 @@ public class HistoryManager {
     public void saveActions() {
         baseData = new DataModel(currentData);
 
-        storage.applyActions(actions);
+        (new ApplyActionOnBackendThread(actions, storage)).start();
     }
 }
