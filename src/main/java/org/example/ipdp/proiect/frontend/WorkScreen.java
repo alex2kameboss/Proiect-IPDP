@@ -1,27 +1,98 @@
 package org.example.ipdp.proiect.frontend;
 
-import org.example.ipdp.proiect.misc.DataModel;
+import org.example.ipdp.proiect.actions.AddEntityAction;
+import org.example.ipdp.proiect.actions.RemoveEntityAction;
+import org.example.ipdp.proiect.misc.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Vector;
 
 public class WorkScreen extends State{
     JTabbedPane entities;
-    DataModel data = null;
+    HistoryManager history;
 
     public WorkScreen() {
-        data = new DataModel();
+        history = new HistoryManager(new IStorage() {
+            @Override
+            public void addEntity(Entity entity) {
+
+            }
+
+            @Override
+            public Entity removeEntity(Entity entity) {
+                return null;
+            }
+
+            @Override
+            public Entity updateEntity(Entity oldEntity, Entity newEntity) {
+                return null;
+            }
+
+            @Override
+            public void addAttribute(String parent, Attribute attribute) {
+
+            }
+
+            @Override
+            public Attribute removeAttribute(String parentName, Attribute attribute) {
+                return null;
+            }
+
+            @Override
+            public Attribute updateAttribute(String parentName, Attribute oldAttribute, Attribute newAttribute) {
+                return null;
+            }
+
+            @Override
+            public void addRelation(Relation relation) {
+
+            }
+
+            @Override
+            public Relation removeRelation(Relation relation) {
+                return null;
+            }
+
+            @Override
+            public Relation updateRelation(Relation oldRelation, Relation newRelation) {
+                return null;
+            }
+
+            @Override
+            public DataModel getDataModel() {
+                return new DataModel();
+            }
+
+            @Override
+            public boolean applyActions(List<IAction> actions) {
+                return false;
+            }
+        });
     }
 
     protected void addEntity(String entityName) {
-        entities.addTab(entityName, new EntityPanel(entityName));
+        entities.addTab(entityName, new EntityPanel(entityName, this));
+
+        history.addAction(new AddEntityAction(new Entity(entityName)));
     }
 
     protected void removeEntity(String entityName) {
         entities.removeTabAt(entities.indexOfTab(entityName));
+
+        history.addAction(new RemoveEntityAction(new Entity(entityName)));
+    }
+
+    protected void redrawDataModel() {
+        entities.removeAll();
+
+        for (Entity entity: history.getData().getEntities()){
+            entities.addTab(entity.getEntityName(),
+                    new EntityPanel(entity, this));
+        }
     }
 
     @Override
@@ -86,6 +157,15 @@ public class WorkScreen extends State{
             }
         });
 
+        undoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                history.undoAction();
+
+                redrawDataModel();
+            }
+        });
+
         entities = new JTabbedPane();
         //entities.addTab("entity1", new EntityPanel("entity1"));
         //entities.addTab("entity2", new EntityPanel("entity2"));
@@ -97,6 +177,8 @@ public class WorkScreen extends State{
 
         frame.setSize(1500, 1000);
         frame.setVisible(true);
+
+        redrawDataModel();
     }
 
     @Override

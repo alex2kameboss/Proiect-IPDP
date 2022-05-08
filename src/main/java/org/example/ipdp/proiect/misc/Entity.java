@@ -1,8 +1,11 @@
 package org.example.ipdp.proiect.misc;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Attr;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Entity {
     protected String entityName;
@@ -37,6 +40,10 @@ public class Entity {
 
     public Attribute getAttribute(String attributeName){
         return attributes.get(attributeName);
+    }
+
+    public List<Attribute> getAttributes() {
+        return new LinkedList<>(attributes.values());
     }
 
     public Attribute removeAttribute(String attributeName){

@@ -1,5 +1,10 @@
 package org.example.ipdp.proiect.frontend;
 
+import org.example.ipdp.proiect.actions.AddAttributeAction;
+import org.example.ipdp.proiect.actions.RemoveAttributeAction;
+import org.example.ipdp.proiect.misc.Attribute;
+import org.example.ipdp.proiect.misc.Entity;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -11,9 +16,12 @@ public class EntityPanel extends JPanel {
     protected String entityName;
     protected JTable attributes;
     protected DefaultTableModel model;
+    protected WorkScreen parent;
 
     protected void addAttribute(String name, String type) {
         model.addRow(new Object[]{name, type});
+
+        parent.history.addAction(new AddAttributeAction(entityName, new Attribute(name, type)));
     }
 
     protected void removeAttribute(String name) {
@@ -28,10 +36,22 @@ public class EntityPanel extends JPanel {
         }
 
         model.removeRow(index);
+
+        String type = (String) model.getValueAt(index, 1);
+        parent.history.addAction(new RemoveAttributeAction(entityName, new Attribute(name, type)));
     }
 
-    public EntityPanel(String entityName) {
+    public EntityPanel(Entity entity, WorkScreen parent) {
+        this(entity.getEntityName(), parent);
+
+        for (Attribute attribute : entity.getAttributes()) {
+            model.addRow(new Object[]{attribute.getAttributeName(), attribute.getAttributeType()});
+        }
+    }
+
+    public EntityPanel(String entityName, WorkScreen parent) {
         this.entityName = entityName;
+        this.parent = parent;
         setSize(1000, 800);
 
         JButton addAttributeButton = new JButton("Add Attribute");

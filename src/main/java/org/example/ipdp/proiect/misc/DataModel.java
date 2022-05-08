@@ -2,10 +2,7 @@ package org.example.ipdp.proiect.misc;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.ListIterator;
+import java.util.*;
 
 public class DataModel {
     protected HashMap<String, Entity> entities;
@@ -40,6 +37,10 @@ public class DataModel {
 
     public Entity getEntity(String entityName){
         return entities.get(entityName);
+    }
+
+    public List<Entity> getEntities() {
+        return new LinkedList<>(entities.values());
     }
 
     public Entity removeEntity(String entityName){

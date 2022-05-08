@@ -41,5 +41,7 @@ public class HistoryManager {
         baseData = new DataModel(currentData);
 
         (new ApplyActionOnBackendThread(actions, storage)).start();
+
+        actions.clear();
     }
 }
