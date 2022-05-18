@@ -127,7 +127,19 @@ public class Backend implements org.example.ipdp.proiect.misc.IStorage {
 
     @Override
     public org.example.ipdp.proiect.misc.DataModel getDataModel() {
-        return new DataModel();
+        DataModel dataModel = new DataModel();
+
+        List<Entity> entities = ObjectSelect.query(Entity.class).select(context);
+        for (Entity entity : entities) {
+            org.example.ipdp.proiect.misc.Entity dataModelEntity = new org.example.ipdp.proiect.misc.Entity(entity.getName());
+            for (Attribute attribute : entity.getAttributes()) {
+                dataModelEntity.addAttribute(new org.example.ipdp.proiect.misc.Attribute(attribute.getName(), attribute.getType()));
+            }
+
+            dataModel.addEntity(dataModelEntity);
+        }
+
+        return dataModel;
     }
 
     @Override

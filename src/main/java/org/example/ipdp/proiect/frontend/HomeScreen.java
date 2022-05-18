@@ -44,6 +44,32 @@ public class HomeScreen extends State{
             }
         });
 
+        openProject.addActionListener(new ActionListener() {
+            public boolean isValidDirectory(String[] subdirectories) {
+                for (String subdirectory : subdirectories) {
+                    if (subdirectory.equals("database")) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                File dir = new File(path.getText());
+                if (dir.isDirectory() && isValidDirectory(dir.list())) {
+                    DataPassing.getContext().clear();
+                    DataPassing.getContext().addData("PATH", path.getText());
+                    DataPassing.getContext().addData("CONTEXT", new FileContext(path.getText()));
+                    Log.getContext().setLogFile(path.getText());
+                    next(Objects.requireNonNull(NextStateFactory.getNextState(getRef())));
+                } else {
+                    System.out.println("Not valid directory");
+                }
+            }
+        });
+
         createProject.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
