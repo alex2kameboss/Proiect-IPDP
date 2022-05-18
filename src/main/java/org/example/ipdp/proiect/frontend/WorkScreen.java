@@ -2,6 +2,7 @@ package org.example.ipdp.proiect.frontend;
 
 import org.example.ipdp.proiect.actions.AddEntityAction;
 import org.example.ipdp.proiect.actions.RemoveEntityAction;
+import org.example.ipdp.proiect.backend.Backend;
 import org.example.ipdp.proiect.misc.*;
 
 import javax.swing.*;
@@ -15,63 +16,12 @@ public class WorkScreen extends State{
     JTabbedPane entities;
     HistoryManager history;
 
+    public WorkScreen getRef() {
+        return this;
+    }
+
     public WorkScreen() {
-        history = new HistoryManager(new IStorage() {
-            @Override
-            public void addEntity(Entity entity) {
-
-            }
-
-            @Override
-            public Entity removeEntity(Entity entity) {
-                return null;
-            }
-
-            @Override
-            public Entity updateEntity(Entity oldEntity, Entity newEntity) {
-                return null;
-            }
-
-            @Override
-            public void addAttribute(String parent, Attribute attribute) {
-
-            }
-
-            @Override
-            public Attribute removeAttribute(String parentName, Attribute attribute) {
-                return null;
-            }
-
-            @Override
-            public Attribute updateAttribute(String parentName, Attribute oldAttribute, Attribute newAttribute) {
-                return null;
-            }
-
-            @Override
-            public void addRelation(Relation relation) {
-
-            }
-
-            @Override
-            public Relation removeRelation(Relation relation) {
-                return null;
-            }
-
-            @Override
-            public Relation updateRelation(Relation oldRelation, Relation newRelation) {
-                return null;
-            }
-
-            @Override
-            public DataModel getDataModel() {
-                return new DataModel();
-            }
-
-            @Override
-            public boolean applyActions(List<IAction> actions) {
-                return false;
-            }
-        });
+        history = new HistoryManager(new Backend(((FileContext) DataPassing.getContext().getData("CONTEXT")).getContext()));
     }
 
     protected void addEntity(String entityName) {
@@ -111,6 +61,21 @@ public class WorkScreen extends State{
         buttonsRaw.add(addEntityButton);
         buttonsRaw.add(removeEntity);
         buttonsRaw.add(closeProjectButton);
+
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                history.saveActions();
+            }
+        });
+
+        closeProjectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ((FileContext) DataPassing.getContext().getData("CONTEXT")).closeContext();
+                next(NextStateFactory.getNextState(getRef()));
+            }
+        });
 
         addEntityButton.addActionListener(new ActionListener() {
             @Override

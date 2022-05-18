@@ -4,6 +4,7 @@ import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.query.ObjectSelect;
 import org.example.ipdp.proiect.backend.orm.*;
+import org.example.ipdp.proiect.misc.DataModel;
 
 import javax.naming.Context;
 import java.util.List;
@@ -126,7 +127,7 @@ public class Backend implements org.example.ipdp.proiect.misc.IStorage {
 
     @Override
     public org.example.ipdp.proiect.misc.DataModel getDataModel() {
-        return null;
+        return new DataModel();
     }
 
     @Override
